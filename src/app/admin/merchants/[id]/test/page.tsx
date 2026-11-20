@@ -16,7 +16,7 @@ export default async function Test({ params }: PageProps<"/admin/merchants/[id]/
     <TestChat
       merchantId={id}
       questionLabels={labels}
-      calendarConnected={!!(m.calendar_provider && m.calendar_api_key && m.calendar_event_type_id)}
+      calendarConnected={!!(m.calendar_api_key && m.calendar_event_type_id)}
     />
   );
 }

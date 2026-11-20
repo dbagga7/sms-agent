@@ -19,7 +19,6 @@ create table merchants (
   widget_key text not null unique default encode(gen_random_bytes(12), 'hex'),
   widget_color text not null default '#2563eb',
   widget_greeting text not null default 'Hi! Want to get on our schedule? I can help with that.',
-  calendar_provider text check (calendar_provider in ('calendly', 'calcom')),
   calendar_api_key text,
   calendar_event_type_id text,
   calendar_event_type_name text,

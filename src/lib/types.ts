@@ -17,7 +17,6 @@ export type Merchant = {
   widget_key: string;
   widget_color: string;
   widget_greeting: string;
-  calendar_provider: "calendly" | "calcom" | null;
   calendar_api_key: string | null;
   calendar_event_type_id: string | null;
   calendar_event_type_name: string | null;

@@ -146,18 +146,16 @@ export async function unassignNumber(id: string) {
 
 export async function connectCalendar(id: string, form: FormData) {
   await requireAdmin();
-  const provider = str(form, "provider") === "calendly" ? "calendly" : "calcom";
   const key = str(form, "api_key");
   if (!key) fail(`${base(id)}/calendar`, "API key is required");
   try {
-    await providerFor(provider, key).listEventTypes(); // validates the key
+    await providerFor(key).listEventTypes(); // validates the key
   } catch (e) {
     fail(`${base(id)}/calendar`, `Could not connect: ${errText(e)}`);
   }
   await db()
     .from("merchants")
     .update({
-      calendar_provider: provider,
       calendar_api_key: key,
       calendar_event_type_id: null,
       calendar_event_type_name: null,
@@ -182,7 +180,6 @@ export async function disconnectCalendar(id: string) {
   await db()
     .from("merchants")
     .update({
-      calendar_provider: null,
       calendar_api_key: null,
       calendar_event_type_id: null,
       calendar_event_type_name: null,

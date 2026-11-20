@@ -247,7 +247,7 @@ async function runTool(ctx: Ctx, name: string, args: Record<string, unknown>): P
       type: m.goal,
       start_time: start,
       address: m.goal === "in_home" ? col.address : null,
-      provider: isTest ? null : m.calendar_provider,
+      provider: isTest ? null : "calcom",
       provider_booking_id: bookingId,
       is_test: isTest,
     });

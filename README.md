@@ -4,9 +4,9 @@ AI appointment scheduling for home service businesses, run by an agency for many
 
 Leads arrive from Zapier (or text the merchant's number, or use the website chat). An OpenAI-powered
 assistant answers questions from the merchant's FAQs, asks their qualifying questions, checks the
-merchant's Calendly / Cal.com availability and books an in-home or phone consultation.
+merchant's Cal.com availability and books an in-home or phone consultation.
 
-**Stack:** Next.js (App Router) on Vercel · Supabase (Postgres + Auth) · OpenAI · Twilio · Calendly / Cal.com
+**Stack:** Next.js (App Router) on Vercel · Supabase (Postgres + Auth) · OpenAI · Twilio · Cal.com
 
 ## Setup
 
@@ -24,7 +24,7 @@ merchant's Calendly / Cal.com availability and books an in-home or phone consult
 
 1. **Settings** — name, time zone, goal (in-home needs an address; phone only needs a time).
 2. **Phone number** — search by area code and buy, or assign a number already in the subaccount.
-3. **Calendar** — paste the merchant's Cal.com API key or Calendly personal access token, pick the event type.
+3. **Calendar** — paste the merchant's Cal.com API key, pick the event type.
 4. **FAQs** and **Qualifying questions**.
 5. **Zapier** — per-merchant webhook URL, secret and field guide.
 6. **Website chat** — embed snippet for WordPress / Elementor.
