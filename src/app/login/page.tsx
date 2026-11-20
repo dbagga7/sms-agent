@@ -1,21 +1,15 @@
-import { signIn } from "../admin/actions";
+import { Submit } from "@/components/ui";
+import { signInWithGoogle } from "../admin/actions";
 
 export default async function Login({ searchParams }: PageProps<"/login">) {
   const { error } = await searchParams;
   return (
     <main className="mx-auto mt-24 max-w-sm px-4">
       <h1 className="mb-6 text-2xl font-semibold">LeadBooker</h1>
-      <form action={signIn} className="card space-y-4">
-        <div>
-          <label className="label" htmlFor="email">Email</label>
-          <input className="input" id="email" name="email" type="email" required autoComplete="email" />
-        </div>
-        <div>
-          <label className="label" htmlFor="password">Password</label>
-          <input className="input" id="password" name="password" type="password" required autoComplete="current-password" />
-        </div>
+      <form action={signInWithGoogle} className="card space-y-4">
+        <p className="text-sm text-slate-600">Sign in with your company Google account.</p>
         {typeof error === "string" && <p className="text-sm text-red-600">{error}</p>}
-        <button className="btn w-full">Sign in</button>
+        <Submit className="btn w-full">Continue with Google</Submit>
       </form>
     </main>
   );

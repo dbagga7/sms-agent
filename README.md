@@ -10,10 +10,12 @@ merchant's Cal.com availability and books an in-home or phone consultation.
 
 ## Setup
 
-1. **Supabase** — run `supabase/migrations/0001_init.sql` in the SQL editor. Under Authentication, add a
-   user (email + password) for each staff member and turn off public sign-ups.
-2. **Vercel** — import this repo and set the variables in `.env.example`. `ADMIN_EMAILS` is the allowlist
-   for `/admin`; with it empty nobody can sign in.
+1. **Supabase** — run `supabase/migrations/0001_init.sql` in the SQL editor. Under Authentication →
+   Providers enable **Google** (client ID and secret from a Google Cloud OAuth client whose redirect URI is
+   `https://<project>.supabase.co/auth/v1/callback`), and under URL Configuration add
+   `<APP_URL>/auth/callback` to the redirect URLs.
+2. **Vercel** — import this repo and set the variables in `.env.example`. Staff sign in with Google;
+   `ADMIN_EMAIL_DOMAINS` / `ADMIN_EMAILS` decide who is let in, and with both empty nobody is.
 3. **Twilio** — use the subaccount's SID and auth token. US local numbers must be covered by an A2P 10DLC
    campaign before they can text; put the messaging service SID in `TWILIO_MESSAGING_SERVICE_SID` to have
    new numbers attached to it automatically.

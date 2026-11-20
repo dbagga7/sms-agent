@@ -6,10 +6,10 @@ import { runTurn, type TraceEntry } from "@/lib/ai/engine";
 import { providerFor } from "@/lib/calendar";
 import { createConversation, getMerchant } from "@/lib/leads";
 import { db } from "@/lib/supabase/admin";
-import { authClient, isAllowedAdmin, requireAdmin } from "@/lib/supabase/server";
+import { authClient, requireAdmin } from "@/lib/supabase/server";
 import { claimOwnedNumber, purchaseNumber, twilioClient } from "@/lib/twilio";
 import type { Collected, Conversation } from "@/lib/types";
-import { normalizePhone } from "@/lib/util";
+import { appUrl, normalizePhone } from "@/lib/util";
 
 const str = (f: FormData, k: string) => String(f.get(k) ?? "").trim();
 const base = (id: string) => `/admin/merchants/${id}`;
@@ -19,18 +19,19 @@ const errText = (e: unknown) => (e instanceof Error ? e.message : "Something wen
 
 // ---------- auth ----------
 
-export async function signIn(form: FormData) {
+export async function signInWithGoogle() {
   const supabase = await authClient();
-  const { data, error } = await supabase.auth.signInWithPassword({
-    email: str(form, "email"),
-    password: str(form, "password"),
+  const domains = (process.env.ADMIN_EMAIL_DOMAINS ?? "").split(",").map((d) => d.trim()).filter(Boolean);
+  const { data, error } = await supabase.auth.signInWithOAuth({
+    provider: "google",
+    options: {
+      redirectTo: `${appUrl()}/auth/callback`,
+      // Only a hint to Google's account picker; the real check is isAllowedAdmin().
+      queryParams: { prompt: "select_account", ...(domains.length === 1 ? { hd: domains[0] } : {}) },
+    },
   });
-  if (error) fail("/login", "Wrong email or password.");
-  if (!isAllowedAdmin(data.user?.email)) {
-    await supabase.auth.signOut();
-    fail("/login", "This account is not on the ADMIN_EMAILS allowlist.");
-  }
-  redirect("/admin");
+  if (error || !data.url) fail("/login", "Google sign-in is not configured yet.");
+  redirect(data.url!);
 }
 
 export async function signOut() {
